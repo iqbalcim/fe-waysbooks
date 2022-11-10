@@ -1,0 +1,14 @@
+.bg {
+  background-image: url(../src/assets/img/bg-frame.svg);
+  background-size: cover;
+  height: 100vh;
+}
+
+.gradient {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 53%,
+    rgba(229, 229, 229, 1) 100%
+  );
+}
