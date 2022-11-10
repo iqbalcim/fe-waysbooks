@@ -63,9 +63,9 @@ const PopularBooks = () => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {books.map((item, id) => {
+        {books.map((item) => {
           return (
-            <div key={id}>
+            <div key={item.id}>
               <SwiperSlide>
                 <div className="flex items-center w-[500px]">
                   <img

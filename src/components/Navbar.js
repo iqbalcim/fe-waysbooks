@@ -64,7 +64,12 @@ const Navbar = () => {
                     dropdownOpen ? "" : "hidden"
                   } absolute bg-white p-5 rounded-lg shadow-lg lg:right-10 lg:top-28 right-0 top-[85px] border-2`}
                 >
-                  <Link to="/profile">
+                  <Link
+                    to="/profile"
+                    onClick={() => {
+                      setdropdownOpen(false);
+                    }}
+                  >
                     <li className="flex items-center px-2 mb-4 border-b-2 pb-4">
                       <img src={Usericon} alt="iconperson" className="pr-4" />
                       <span>Profile</span>
