@@ -1,8 +1,7 @@
 import React from "react";
 import { styles } from "../../style";
 import Book2 from "../../assets/img/book-detail.png";
-import GlobalButton from "../../components/atoms/GlobalButton";
-
+import { Carticon } from "../../assets";
 const DetailBook = () => {
   return (
     <div className="px-[262px] mt-10">
@@ -26,9 +25,7 @@ const DetailBook = () => {
         </div>
       </div>
       <div className="mt-[80px]">
-        <h1 className={`${styles.heading3} mb-10`}>
-          About This Book
-        </h1>
+        <h1 className={`${styles.heading3} mb-10`}>About This Book</h1>
         <p className="text-justify text-slate-400 font-avanir">
           Bagi Heidy Theapila, latar belakang keluarga membuatnya tak mudah
           menemukan pasangan sejiwa. Tapi, ceritanya berbeda dengan Mirza. Heidy
@@ -40,18 +37,21 @@ const DetailBook = () => {
           butuh ruang untuk meninjau ulang semua rencana dalam hidupnya. Lalu,
           Allah memberinya kejutan.
           <br /> <br />
-          Dalam pelayaran menyusuri Venesia, Heidy
-          bertemu raksasa bermata biru. Graeme MacLeod, pria yang mencuri
-          napasnya di pertemuan pertama mereka. Meski ketertarikan di antara
-          mereka begitu besar, Heidy tidak berniat menjalin asmara singkat.
-          Graeme harus dilupakan. Ketika apa yang terjadi di Venesia tidak bisa
-          tetap ditinggal di Venesia, Heidy mulai goyah. Apalagi Graeme ternyata
-          lelaki gigih yang mengejarnya hingga ke Jakarta dan tak putus asa
-          tatkala ditolak. Meski akhirnya satu per satu rahasia kelam lelaki itu
-          terbuka, Heidy justru kian jatuh cinta. Pertanyaannya, apakah cinta
-          memang benar-benar mampu menyatukan mereka?
+          Dalam pelayaran menyusuri Venesia, Heidy bertemu raksasa bermata biru.
+          Graeme MacLeod, pria yang mencuri napasnya di pertemuan pertama
+          mereka. Meski ketertarikan di antara mereka begitu besar, Heidy tidak
+          berniat menjalin asmara singkat. Graeme harus dilupakan. Ketika apa
+          yang terjadi di Venesia tidak bisa tetap ditinggal di Venesia, Heidy
+          mulai goyah. Apalagi Graeme ternyata lelaki gigih yang mengejarnya
+          hingga ke Jakarta dan tak putus asa tatkala ditolak. Meski akhirnya
+          satu per satu rahasia kelam lelaki itu terbuka, Heidy justru kian
+          jatuh cinta. Pertanyaannya, apakah cinta memang benar-benar mampu
+          menyatukan mereka?
         </p>
-        <GlobalButton title="Add Cart" custom="w-[144px] h-[50px] float-right mt-[30px] font-avanir"/>
+        <button className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center">
+          <span className="pr-2">Add Cart</span>
+          <img src={Carticon} alt="" />
+        </button>
       </div>
     </div>
   );

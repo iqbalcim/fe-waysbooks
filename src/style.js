@@ -13,6 +13,7 @@ export const styles = {
   flexCenter: "flex justify-center items-center",
   flexCenter2: "flex items-center mb-[35px]",
   flexBetween: "flex justify-between items-center",
+  flexBetween2: "flex justify-between",
 
   heading1: "text-[43px] font-volkorn font-[400] text-center",
   heading2: "text-[24px] font-bold  font-avanir",

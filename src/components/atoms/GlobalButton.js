@@ -1,4 +1,5 @@
 import React from "react";
+import { Bookicon } from "../../assets";
 
 const GlobalButton = ({ title, bg, fc, custom, onClick }) => {
   return (
