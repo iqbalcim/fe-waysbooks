@@ -8,6 +8,7 @@ import {
   AddBook,
   Cart,
   IncomeTransaction,
+  EditProfile,
 } from "./pages";
 import "./App.css";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/add-book" element={<AddBook />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/income-transaction" element={<IncomeTransaction />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
       </Routes>
     </div>

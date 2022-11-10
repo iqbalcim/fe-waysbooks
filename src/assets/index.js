@@ -7,8 +7,11 @@ import Phoneicon from "./icon/phone.png";
 import Addressicon from "./icon/address.png";
 import Bookicon from "./icon/book.png";
 import Carticon from "./icon/cart.png";
+import Carticonnav from "./icon/cartnav.png";
 import Trashicon from "./icon/trash.png";
 import AttachTransaction from "./icon/attach-transaction.png";
+import Logouticon from "./icon/logout.png";
+import Usericon from "./icon/user.png";
 
 export {
   Bg,
@@ -22,4 +25,7 @@ export {
   Carticon,
   Trashicon,
   AttachTransaction,
+  Carticonnav,
+  Logouticon,
+  Usericon,
 };

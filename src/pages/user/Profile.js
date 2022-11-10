@@ -10,8 +10,10 @@ import {
 import { GlobalButton } from "../../components";
 import Book from "../../assets/img/book1.png";
 import { convert } from "rupiah-format";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const books = [
     {
       id: 1,
@@ -106,6 +108,7 @@ const Profile = () => {
           />
           <GlobalButton
             title="Edit Profile"
+            onClick={() => navigate("/edit-profile")}
             bg="bg-red-600"
             custom="h-[50px]
           w-[227px]"

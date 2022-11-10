@@ -1,7 +1,7 @@
 import React from "react";
 import Book from "../assets/img/book1.png";
 import { styles } from "../style";
-import GlobalButton from "./atoms/GlobalButton";
+import GlobalButton from "./atoms/button/GlobalButton";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../App.css";
 
