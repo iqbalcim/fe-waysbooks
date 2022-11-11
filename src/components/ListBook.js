@@ -1,9 +1,13 @@
-import React from "react";
+import * as React from "react";
 import { styles } from "../style";
 import Book from "../assets/img/book1.png";
 import { convert } from "rupiah-format";
+import { GlobalButton } from "../components";
+import { useNavigate } from "react-router-dom";
 
 const ListBook = () => {
+  const navigate = useNavigate();
+
   const books = [
     {
       id: 1,
@@ -54,9 +58,16 @@ const ListBook = () => {
   return (
     <div className="bg-[#E5E5E5]">
       <div className={`pt-[60px] pb-[42px] ${styles.paddingX}`}>
-        <h1 className="text-[36px] font-bold mb-[42px] font-timesroman">
-          List Book
-        </h1>
+        <div className={styles.flexBetween2}>
+          <h1 className="text-[36px] font-bold mb-[42px] font-timesroman">
+            List Book
+          </h1>
+          <GlobalButton
+            title="See All Book"
+            custom="w-[120px] h-[40px]"
+            onClick={() => navigate("/all-books")}
+          />
+        </div>
         <div className="grid grid-cols-5">
           {books.map((book) => (
             <div className="w-[200px] ">
