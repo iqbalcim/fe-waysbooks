@@ -1,9 +1,41 @@
+import * as React from "react";
+import { useMutation } from "react-query";
+import { API } from "../../config/api";
 import GlobalButton from "../atoms/button/GlobalButton";
 const Register = ({
   showModalRegister,
   setShowModalRegister,
   setShowModalLogin,
 }) => {
+  const [message, setMessage] = React.useState(null);
+
+  const [form, setForm] = React.useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+
+  const { email, password, fullName } = form;
+
+  const handleOnChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+
+      const response = await API.post("/register", form);
+
+      console.log("ini response Register", response);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   return (
     <>
       {showModalRegister ? (
@@ -28,10 +60,13 @@ const Register = ({
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <form>
+                  <form onSubmit={(e) => handleSubmit.mutate(e)}>
                     <input
                       name="email"
+                      type="email"
                       placeholder="Email"
+                      onChange={handleOnChange}
+                      value={email}
                       className="shadow-md p-3 rounded-md w-full border mb-5 mt-5"
                       required
                     />
@@ -39,13 +74,17 @@ const Register = ({
                       name="password"
                       type="password"
                       placeholder="Password"
+                      onChange={handleOnChange}
+                      value={password}
                       className="shadow-md p-3 rounded-md w-full border mb-5"
                       required
                     />
                     <input
                       type="text"
-                      name="fullname"
+                      name="fullName"
                       placeholder="Full Name"
+                      onChange={handleOnChange}
+                      value={fullName}
                       className="shadow-md p-3 rounded-md w-full border mb-5"
                       required
                     />

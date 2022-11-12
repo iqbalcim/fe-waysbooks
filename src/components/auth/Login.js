@@ -1,5 +1,9 @@
-import React from "react";
+import * as React from "react";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { API } from "../../config/api";
 import GlobalButton from "../atoms/button/GlobalButton";
+import { UserContext } from "../context/UserContext";
 
 const Login = ({
   showModalLogin,
@@ -7,6 +11,55 @@ const Login = ({
   setShowModalRegister,
   setIsLogin,
 }) => {
+  const navigate = useNavigate();
+
+  const [state, dispacth] = React.useContext(UserContext);
+
+  const [message, setMessage] = React.useState(null);
+
+  const [form, setForm] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = form;
+
+  const handleOnChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+
+      const data = await API.post("/login", form);
+
+      const alert = <div>Success Login</div>;
+
+      setMessage(alert);
+
+      let payload = data.data.data;
+
+      dispacth({
+        type: "LOGIN_SUCCESS",
+        payload,
+      });
+
+      setShowModalLogin(false);
+
+      if (payload.role === "admin") {
+        navigate("/income-transaction");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      const alert = <div>Email Password Salah</div>;
+      setMessage(alert);
+    }
+  });
   return (
     <>
       {showModalLogin ? (
@@ -31,27 +84,27 @@ const Login = ({
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <form>
+                  <form onSubmit={(e) => handleSubmit.mutate(e)}>
                     <input
                       type="Email"
                       placeholder="Email"
                       name="email"
+                      onChange={handleOnChange}
+                      value={email}
                       className="shadow-md p-3 rounded-md w-full border mb-5"
                     />
                     <input
                       type="password"
                       placeholder="Password"
                       name="password"
+                      onChange={handleOnChange}
+                      value={password}
                       className="shadow-md p-3 rounded-md w-full border mb-5"
                     />
                     <GlobalButton
                       title="Login"
                       custom="w-full py-[9px] mb-5"
                       type="submit"
-                      onClick={(e) => {
-                        setIsLogin(true);
-                        setShowModalLogin(false);
-                      }}
                     />
                     <p className="text-center">
                       Don't have an account ?{" "}

@@ -12,6 +12,7 @@ import Trashicon from "./icon/trash.png";
 import AttachTransaction from "./icon/attach-transaction.png";
 import Logouticon from "./icon/logout.png";
 import Usericon from "./icon/user.png";
+import Bookiconnav from "./icon/booknav.png";
 
 export {
   Bg,
@@ -28,4 +29,5 @@ export {
   Carticonnav,
   Logouticon,
   Usericon,
+  Bookiconnav,
 };

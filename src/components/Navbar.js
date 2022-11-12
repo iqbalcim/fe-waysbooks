@@ -1,12 +1,32 @@
 import * as React from "react";
 import { styles } from "../style";
-import { Logo, Profile1, Carticonnav, Logouticon, Usericon } from "../assets";
+import {
+  Logo,
+  Profile1,
+  Carticonnav,
+  Logouticon,
+  Usericon,
+  Bookiconnav,
+} from "../assets";
 import GlobalButton from "./atoms/button/GlobalButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import { UserContext } from "./context/UserContext";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const [state, dispacth] = React.useContext(UserContext);
+
+  const handleLogout = () => {
+    dispacth({
+      type: "LOGOUT",
+    });
+
+    navigate("/");
+  };
+
   const [isLogin, setIsLogin] = React.useState(false);
   const [dropdownOpen, setdropdownOpen] = React.useState(false);
   const [showModalLogin, setShowModalLogin] = React.useState(false);
@@ -23,7 +43,7 @@ const Navbar = () => {
           <Link to="/">
             <img src={Logo} alt="waysbooks" className="w-[111px] h-[65px]" />
           </Link>
-          {!isLogin ? (
+          {!state.isLogin ? (
             <div>
               <GlobalButton
                 title="Login"
@@ -38,7 +58,7 @@ const Navbar = () => {
                 custom="w-[100px] h-[30px]"
               />
             </div>
-          ) : (
+          ) : state.user.role === "user" ? (
             <div className="flex items-center">
               <Link to="/cart">
                 <img
@@ -77,7 +97,60 @@ const Navbar = () => {
                   </Link>
                   <li className="flex items-center px-2 mt-4 pr-12 cursor-pointer">
                     <img src={Logouticon} alt="IconLogout" className="pr-4" />
-                    <span onClick={() => setIsLogin(false)}>Logout</span>
+                    <span onClick={handleLogout}>Logout</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <img
+                src={Profile1}
+                alt=""
+                className="w-[60px] h-[60px] rounded-full"
+                onClick={() => {
+                  drowDownClick();
+                }}
+              />
+              <div>
+                <ul
+                  className={`${
+                    dropdownOpen ? "" : "hidden"
+                  } absolute bg-white p-5 rounded-lg shadow-lg lg:right-10 lg:top-28 right-0 top-[85px] border-2`}
+                >
+                  <Link
+                    to="/add-book"
+                    onClick={() => {
+                      setdropdownOpen(false);
+                    }}
+                  >
+                    <li className="flex items-center px-2 mb-4 border-b-2 pb-4">
+                      <img
+                        src={Bookiconnav}
+                        alt="iconperson"
+                        className="pr-4"
+                      />
+                      <span>Add Book</span>
+                    </li>
+                  </Link>
+                  <Link
+                    to="/list-book"
+                    onClick={() => {
+                      setdropdownOpen(false);
+                    }}
+                  >
+                    <li className="flex items-center px-2 mb-4 border-b-2 pb-4">
+                      <img
+                        src={Bookiconnav}
+                        alt="iconperson"
+                        className="pr-4"
+                      />
+                      <span>List Book</span>
+                    </li>
+                  </Link>
+                  <li className="flex items-center px-2 mt-4 pr-12 cursor-pointer">
+                    <img src={Logouticon} alt="IconLogout" className="pr-4" />
+                    <span onClick={handleLogout}>Logout</span>
                   </li>
                 </ul>
               </div>
