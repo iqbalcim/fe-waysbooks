@@ -83,7 +83,7 @@ const ListBookAdmin = () => {
                 </td>
                 <td className="py-4 px-6 ">
                   <div className="flex">
-                    <button className="bg-green-400 text-white py-1 px-2 rounded font-bold font-avanir mr-3">
+                    <button className="bg-green-400 text-white py-1 px-2 rounded font-bold font-avanir mr-3" onClick={() => navigate(`/update-book/${book.id}`)}>
                       Edit
                     </button>
                     <button

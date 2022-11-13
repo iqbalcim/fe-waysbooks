@@ -17,6 +17,17 @@ const DetailBook = () => {
     return response.data.data;
   });
 
+  console.log(book);
+
+  const addToCart = async (id) => {
+    try {
+      const response = await API.post(`/cart/add/${id}`);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="px-[262px] mt-10">
       <div className="grid grid-cols-2 gap-10 w-full">
@@ -45,7 +56,10 @@ const DetailBook = () => {
         <p className="text-justify text-slate-400 font-avanir">
           {book?.description}
         </p>
-        <button className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center">
+        <button
+          onClick={() => addToCart(book.id)}
+          className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center"
+        >
           <span className="pr-2">Add Cart</span>
           <img src={Carticon} alt="" />
         </button>

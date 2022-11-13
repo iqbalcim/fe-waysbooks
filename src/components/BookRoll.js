@@ -27,7 +27,6 @@ const BookRoll = () => {
     try {
       const response = await API.post(`/cart/add/${id}`);
       console.log(response);
-      navigate("/cart");
     } catch (error) {
       console.log(error);
     }

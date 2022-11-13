@@ -1,7 +1,18 @@
 import React from "react";
+import { useQuery } from "react-query";
+import { API } from "../../config/api";
 import { styles } from "../../style";
+import convertRupiah from "rupiah-format";
 
 const IncomeTransaction = () => {
+  let { data: incomeTransaction, refetch } = useQuery(
+    "incomeTransactionCache",
+    async () => {
+      const response = await API.get("/transactions");
+      return response.data.data;
+    }
+  );
+
   return (
     <div className="px-[170px]">
       <h1 className={`${styles.heading3} mt-24 mb-10`}>Incoming Transaction</h1>
@@ -17,9 +28,6 @@ const IncomeTransaction = () => {
                 Users
               </th>
               <th scope="col" className="py-3 px-6 text-red-500">
-                Evidence of Transfer
-              </th>
-              <th scope="col" className="py-3 px-6 text-red-500">
                 Product Purchased
               </th>
               <th scope="col" className="py-3 px-6 text-red-500">
@@ -31,71 +39,28 @@ const IncomeTransaction = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-[#fff] border-b">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="py-4 px-6 text-black">Radif Ganteng</td>
-              <td className="py-4 px-6 text-blue-500">bca.jpg</td>
-              <td className="py-4 px-6 text-black">My Own Private Mr. Cool</td>
-              <td className="py-4 px-6 text-green-500">Rp 100.000</td>
-              <td className="py-4 px-6 text-green-500">Approve</td>
-            </tr>
-            <tr className="bg-[#fff] border-b">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="py-4 px-6 text-black">Radif Ganteng</td>
-              <td className="py-4 px-6 text-blue-500">bca.jpg</td>
-              <td className="py-4 px-6 text-black">My Own Private Mr. Cool</td>
-              <td className="py-4 px-6 text-green-500">Rp 100.000</td>
-              <td className="py-4 px-6 text-green-500">Approve</td>
-            </tr>
-            <tr className="bg-[#fff] border-b">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="py-4 px-6 text-black">Radif Ganteng</td>
-              <td className="py-4 px-6 text-blue-500">bca.jpg</td>
-              <td className="py-4 px-6 text-black">My Own Private Mr. Cool</td>
-              <td className="py-4 px-6 text-green-500">Rp 100.000</td>
-              <td className="py-4 px-6 text-green-500">Approve</td>
-            </tr>
-            <tr className="bg-[#fff] border-b">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="py-4 px-6 text-black">Radif Ganteng</td>
-              <td className="py-4 px-6 text-blue-500">bca.jpg</td>
-              <td className="py-4 px-6 text-black">My Own Private Mr. Cool</td>
-              <td className="py-4 px-6 text-green-500">Rp 100.000</td>
-              <td className="py-4 px-6 text-green-500">Approve</td>
-            </tr>
-            <tr className="bg-[#fff] border-b">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
-              >
-                1
-              </th>
-              <td className="py-4 px-6 text-black">Radif Ganteng</td>
-              <td className="py-4 px-6 text-blue-500">bca.jpg</td>
-              <td className="py-4 px-6 text-black">My Own Private Mr. Cool</td>
-              <td className="py-4 px-6 text-green-500">Rp 100.000</td>
-              <td className="py-4 px-6 text-green-500">Approve</td>
-            </tr>
+            {incomeTransaction?.map((transaction, index) => (
+              <tr className="bg-[#fff] border-b">
+                <th
+                  scope="row"
+                  className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
+                >
+                  {index + 1}
+                </th>
+                <td className="py-4 px-6 text-black">
+                  {transaction.user.name}
+                </td>
+                <td className="py-4 px-6 text-black">
+                  {[...transaction.books].map((book) => book.title).join(",")}
+                </td>
+                <td className="py-4 px-6 text-green-500">
+                  {convertRupiah.convert(transaction.totalpayment)}
+                </td>
+                <td className="py-4 px-6 text-green-500">
+                  {transaction.status}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

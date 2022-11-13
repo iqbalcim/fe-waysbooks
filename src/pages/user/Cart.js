@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "../../style";
 import Book from "../../assets/img/book1.png";
 import { Trashicon, AttachTransaction } from "../../assets";
@@ -6,8 +6,29 @@ import convertRupiah from "rupiah-format";
 import { GlobalButton, GlobalInput } from "../../components";
 import { API } from "../../config/api";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    //change this to the script source you want to load, for example this is snap.js sandbox env
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = process.env.REACT_APP_MY_MIDTRANS_CLIENT_KEY;
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
+
   const { data: cart, refetch } = useQuery("cartCache", async () => {
     const response = await API.get("/cart");
     return response.data.data;
@@ -20,7 +41,6 @@ const Cart = () => {
   const handleDelete = async (id) => {
     try {
       const response = await API.delete(`/cart/delete/${id}`);
-      console.log(response);
       refetch();
     } catch (error) {
       console.log(error);
@@ -37,6 +57,40 @@ const Cart = () => {
         totalpayment: totalPrice,
       };
       const response = await API.post("/transaction", body);
+
+      const token = response.data.data;
+      console.log(token);
+      window.snap.pay(token, {
+        onSuccess: async function (result) {
+          /* You may add your own implementation here */
+          // result.order_id
+          // console.log('midtrans success:', result);
+          // console.log('midtrans orderId:', result.order_id);
+          // console.log('midtrans fraud:', result.fraud_status);
+          // console.log('midtrans status:', result.transaction_status);
+          // alert('dsa');
+          const body = {
+            order_id: result.order_id,
+            fraud_status: result.fraud_status,
+            transaction_status: result.transaction_status,
+          };
+
+          const response = await API.post("/transaction-process", body);
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          navigate("/profile");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
       console.log(body);
       console.log(response);
     } catch (error) {
@@ -120,7 +174,7 @@ const Cart = () => {
             <GlobalButton
               title="Pay Now"
               custom="w-full h-[40px] mt-5"
-              onClick={handleCheckout}
+              onClick={() => handleCheckout()}
             />
           </div>
         </div>

@@ -10,6 +10,7 @@ import {
   IncomeTransaction,
   EditProfile,
   ListBookAdmin,
+  UpdateBook,
 } from "./pages";
 import "./App.css";
 import { API, setAuthToken } from "./config/api";
@@ -98,6 +99,7 @@ function App() {
                   element={<IncomeTransaction />}
                 />
                 <Route path="/list-book" element={<ListBookAdmin />} />
+                <Route path="/update-book/:id" element={<UpdateBook />} />
               </Route>
             </Route>
           </Routes>
