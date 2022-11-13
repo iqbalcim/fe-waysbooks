@@ -17,8 +17,6 @@ const DetailBook = () => {
     return response.data.data;
   });
 
-  console.log(book);
-
   const addToCart = async (id) => {
     try {
       const response = await API.post(`/cart/add/${id}`);

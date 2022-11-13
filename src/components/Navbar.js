@@ -8,6 +8,7 @@ import {
   Usericon,
   Bookiconnav,
 } from "../assets";
+import { RegisterAdmin } from "../pages";
 import GlobalButton from "./atoms/button/GlobalButton";
 import { Link, useNavigate } from "react-router-dom";
 import Login from "./auth/Login";

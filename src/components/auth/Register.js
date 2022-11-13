@@ -15,6 +15,7 @@ const Register = ({
     fullName: "",
     email: "",
     password: "",
+    role: "user",
   });
 
   const { email, password, fullName } = form;

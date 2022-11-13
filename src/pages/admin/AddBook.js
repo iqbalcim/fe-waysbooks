@@ -74,7 +74,7 @@ const AddBook = () => {
             Publication Date
           </label>
           <GlobalInput
-            type="string"
+            type="date"
             id="date"
             name="publication_date"
             onChange={handleChange}

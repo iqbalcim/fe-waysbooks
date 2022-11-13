@@ -7,6 +7,7 @@ import IncomeTransaction from "./admin/IncomeTransaction";
 import EditProfile from "./user/EditProfile";
 import ListBookAdmin from "./admin/ListBookAdmin";
 import UpdateBook from "./admin/UpdateBook";
+import RegisterAdmin from "./admin/RegisterAdmin";
 
 export {
   Home,
@@ -18,4 +19,5 @@ export {
   EditProfile,
   ListBookAdmin,
   UpdateBook,
+  RegisterAdmin,
 };

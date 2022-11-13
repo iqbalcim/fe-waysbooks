@@ -11,6 +11,7 @@ import {
   EditProfile,
   ListBookAdmin,
   UpdateBook,
+  RegisterAdmin,
 } from "./pages";
 import "./App.css";
 import { API, setAuthToken } from "./config/api";
@@ -86,6 +87,7 @@ function App() {
           <Routes>
             <Route>
               <Route path="/" element={<Home />} />
+              <Route path="/register-admin" element={<RegisterAdmin />} />
               <Route path="/detail-book/:id" element={<DetailBook />} />
               <Route path="/" element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />
