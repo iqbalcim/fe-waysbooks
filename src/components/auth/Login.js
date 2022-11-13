@@ -37,11 +37,14 @@ const Login = ({
 
       const data = await API.post("/login", form);
 
+      localStorage.setItem("id", data.data.data.id);
       const alert = <div>Success Login</div>;
 
       setMessage(alert);
 
       let payload = data.data.data;
+
+      console.log(payload);
 
       dispacth({
         type: "LOGIN_SUCCESS",

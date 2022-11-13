@@ -13,19 +13,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import { UserContext } from "./context/UserContext";
+import { useQuery } from "react-query";
+import { API } from "../config/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
-  const [state, dispacth] = React.useContext(UserContext);
-
-  const handleLogout = () => {
-    dispacth({
-      type: "LOGOUT",
-    });
-
-    navigate("/");
-  };
 
   const [isLogin, setIsLogin] = React.useState(false);
   const [dropdownOpen, setdropdownOpen] = React.useState(false);
@@ -35,6 +27,40 @@ const Navbar = () => {
   const drowDownClick = () => {
     setdropdownOpen((current) => !current);
   };
+
+  const [state, dispatch] = React.useContext(UserContext);
+
+  let { data: userData, refetch } = useQuery("userDataCache", async () => {
+    const response = await API.get(`/user/${localStorage.id}`);
+    return response.data.data;
+  });
+
+  const { data: cartData, refetch: refetchCartData } = useQuery(
+    "cartCache",
+    async () => {
+      try {
+        const response = await API.get("/cart");
+        return response.data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  );
+
+  const handleLogout = () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    navigate("/");
+  };
+
+  React.useEffect(() => {
+    if (state.isLogin && state.user) {
+      // getUser()
+      refetch();
+      refetchCartData();
+    }
+  }, [state]);
 
   return (
     <div className={styles.boxWidth}>
@@ -66,12 +92,14 @@ const Navbar = () => {
                   alt=""
                   className="w-[35px] h-[32px] mr-[40px]"
                 />
-                <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full absolute top-14 right-48">
-                  0
-                </span>
+                {cartData?.length > 0 && (
+                  <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full absolute top-14 right-48">
+                    {cartData?.length}
+                  </span>
+                )}
               </Link>
               <img
-                src={Profile1}
+                src={userData?.image}
                 alt=""
                 className="w-[60px] h-[60px] rounded-full"
                 onClick={() => {
@@ -105,7 +133,7 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center">
               <img
-                src={Profile1}
+                src={userData?.image}
                 alt=""
                 className="w-[60px] h-[60px] rounded-full"
                 onClick={() => {

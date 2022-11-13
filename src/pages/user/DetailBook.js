@@ -2,51 +2,48 @@ import React from "react";
 import { styles } from "../../style";
 import Book2 from "../../assets/img/book-detail.png";
 import { Carticon } from "../../assets";
+import { useNavigate, useParams } from "react-router-dom";
+import { API } from "../../config/api";
+import { useQuery } from "react-query";
+import convertRupiah from "rupiah-format";
+
 const DetailBook = () => {
+  const params = useParams();
+
+  const navigate = useNavigate();
+
+  let { data: book } = useQuery("detailBookCache", async () => {
+    const response = await API.get(`/book/${params.id}`);
+    return response.data.data;
+  });
+
   return (
     <div className="px-[262px] mt-10">
-      <div className="grid grid-cols-2 w-full">
-        <div className="w-[400px] h-[577px]">
-          <img src={Book2} alt="" className="w-full" />
+      <div className="grid grid-cols-2 gap-10 w-full">
+        <div className="w-full ">
+          <img src={book?.thumbnail} alt="" className="w-full h-[577px]" />
         </div>
         <div className="w-full flex flex-col justify-between">
           <h1 className="text-[48px] font-bold font-timesroman">
-            My Own Private Mr Cool
+            {book?.title}
           </h1>
-          <p className="text-[24px] italic text-slate-500">By Indah Hanaco</p>
+          <p className="text-[24px] italic text-slate-500">By {book?.author}</p>
           <h2 className={styles.heading2}>Publication date</h2>
-          <p className={styles.heading4}>August 2018</p>
+          <p className={styles.heading4}>{book?.publication_date}</p>
           <h2 className={styles.heading2}>Pages</h2>
-          <p className={styles.heading4}>200</p>
+          <p className={styles.heading4}>{book?.pages}</p>
           <h2 className={`${styles.heading2} text-red-500`}>ISBN</h2>
-          <p className={styles.heading4}>9786020395227</p>
+          <p className={styles.heading4}>{book?.isbn}</p>
           <h2 className={styles.heading2}>Price</h2>
-          <p className={`${styles.heading4} text-green-500`}>Rp. 100.000</p>
+          <p className={`${styles.heading4} text-green-500`}>
+            {convertRupiah.convert(book?.price)}
+          </p>
         </div>
       </div>
       <div className="mt-[80px]">
         <h1 className={`${styles.heading3} mb-10`}>About This Book</h1>
         <p className="text-justify text-slate-400 font-avanir">
-          Bagi Heidy Theapila, latar belakang keluarga membuatnya tak mudah
-          menemukan pasangan sejiwa. Tapi, ceritanya berbeda dengan Mirza. Heidy
-          meyakini lelaki itu mencintainya dengan tulus. Namun, keyakinannya
-          tumbang. Pertemuan mereka bukan cuma karena campur tangan Allah
-          semata. Melainkan karena skenario rapi yang berkaitan dengan materi.
-          Marah sekaligus patah hati, Heidy membatalkan rencana masa depannya
-          dan memilih kabur ke Italia. Langkahnya mungkin tak dewasa, tapi Heidy
-          butuh ruang untuk meninjau ulang semua rencana dalam hidupnya. Lalu,
-          Allah memberinya kejutan.
-          <br /> <br />
-          Dalam pelayaran menyusuri Venesia, Heidy bertemu raksasa bermata biru.
-          Graeme MacLeod, pria yang mencuri napasnya di pertemuan pertama
-          mereka. Meski ketertarikan di antara mereka begitu besar, Heidy tidak
-          berniat menjalin asmara singkat. Graeme harus dilupakan. Ketika apa
-          yang terjadi di Venesia tidak bisa tetap ditinggal di Venesia, Heidy
-          mulai goyah. Apalagi Graeme ternyata lelaki gigih yang mengejarnya
-          hingga ke Jakarta dan tak putus asa tatkala ditolak. Meski akhirnya
-          satu per satu rahasia kelam lelaki itu terbuka, Heidy justru kian
-          jatuh cinta. Pertanyaannya, apakah cinta memang benar-benar mampu
-          menyatukan mereka?
+          {book?.description}
         </p>
         <button className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center">
           <span className="pr-2">Add Cart</span>

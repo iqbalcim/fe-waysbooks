@@ -9,48 +9,29 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import { Pagination } from "swiper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import convertRupiah from "rupiah-format";
+import { useQuery } from "react-query";
+import { API } from "../config/api";
 
-const PopularBooks = () => {
-  const books = [
-    {
-      id: 1,
-      title: "Sebuah Seni Untuk Bersikap Bodo Amat",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Selama beberapa tahun belakangan, Mark Manson—melalui blognya yang sangat populer tel ...",
-      price: "100000",
-    },
-    {
-      id: 2,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Dua insan manusia harus terjebak dalam dilema cinta yang memaksa salah satu dari mereka pergi me ...",
-      price: "100000",
-    },
-    {
-      id: 3,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Selama beberapa tahun belakangan, Mark Manson—melalui blognya yang sangat populer tel ...",
-      price: "100000",
-    },
-    {
-      id: 4,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Selama beberapa tahun belakangan, Mark Manson—melalui blognya yang sangat populer tel ...",
-      price: "100000",
-    },
-  ];
+const BookRoll = () => {
+  const navigate = useNavigate();
+
+  let { data: books } = useQuery("latestBooksCache", async () => {
+    const response = await API.get("/books");
+    return response.data.data;
+  });
+
+  //add to cart
+  const addToCart = async (id) => {
+    try {
+      const response = await API.post(`/cart/add/${id}`);
+      console.log(response);
+      navigate("/cart");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="gradient">
@@ -63,18 +44,21 @@ const PopularBooks = () => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {books.map((item) => {
+        {books?.map((item) => {
           return (
             <div key={item.id}>
               <SwiperSlide>
                 <div className="flex items-center w-[500px]">
                   <img
-                    src={item.image}
+                    src={item.thumbnail}
                     alt="books"
                     className="w-[236px] h-[345px]"
                   />
-                  <div className="flex flex-col justify-between px-4 py-3 h-[277px] bg-white">
-                    <h1 className="font-bold text-[28px] leading-none">
+                  <div className="flex flex-col justify-between px-4 py-3 h-[277px] w-[260px] bg-white">
+                    <h1
+                      className="font-bold text-[28px] leading-none"
+                      onClick={() => navigate(`/detail-book/${item.id}`)}
+                    >
                       {item.title}
                     </h1>
                     <p className="italic text-slate-400">By. {item.author}</p>
@@ -87,6 +71,7 @@ const PopularBooks = () => {
                     <GlobalButton
                       title="Add to cart"
                       custom="h-[39px] font-avanir"
+                      onClick={() => addToCart(item.id)}
                     />
                   </div>
                 </div>
@@ -99,4 +84,4 @@ const PopularBooks = () => {
   );
 };
 
-export default PopularBooks;
+export default BookRoll;

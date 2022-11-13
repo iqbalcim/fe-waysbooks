@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { API } from "../../config/api";
 import GlobalButton from "../atoms/button/GlobalButton";
 const Register = ({
@@ -7,6 +8,7 @@ const Register = ({
   setShowModalRegister,
   setShowModalLogin,
 }) => {
+  const navigate = useNavigate();
   const [message, setMessage] = React.useState(null);
 
   const [form, setForm] = React.useState({
@@ -30,7 +32,8 @@ const Register = ({
 
       const response = await API.post("/register", form);
 
-      console.log("ini response Register", response);
+      setShowModalRegister(false);
+      setShowModalLogin(true);
     } catch (error) {
       console.log(error);
     }

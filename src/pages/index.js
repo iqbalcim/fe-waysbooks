@@ -5,7 +5,6 @@ import AddBook from "./admin/AddBook";
 import Cart from "./user/Cart";
 import IncomeTransaction from "./admin/IncomeTransaction";
 import EditProfile from "./user/EditProfile";
-import AllBook from "./user/AllBook";
 import ListBookAdmin from "./admin/ListBookAdmin";
 
 export {
@@ -16,6 +15,5 @@ export {
   Cart,
   IncomeTransaction,
   EditProfile,
-  AllBook,
   ListBookAdmin,
 };

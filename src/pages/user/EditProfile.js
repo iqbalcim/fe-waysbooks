@@ -10,7 +10,6 @@ import { UserContext } from "../../components/context/UserContext";
 const EditProfile = () => {
   const [isloading, setIsloading] = React.useState(false);
 
-  const params = useParams();
   const navigate = useNavigate();
 
   const [preview, setPreview] = React.useState(null);
@@ -19,16 +18,15 @@ const EditProfile = () => {
   const [form, setForm] = React.useState({
     fullName: "",
     email: "",
-    paswword: "",
+    password: "",
     phone: "",
     gender: "",
     address: "",
     image: "",
   });
 
-  let { data: user } = useQuery("editProfCache", async () => {
+  let { data: user, refetch } = useQuery("editProfCache", async () => {
     const response = await API.get(`/user/${state.user.id}`);
-    console.log("ini response get", response);
     return response.data.data;
   });
 
@@ -62,12 +60,11 @@ const EditProfile = () => {
   const handleSubmit = useMutation(async (e) => {
     try {
       e.preventDefault();
-      setIsloading(true);
 
       const formData = new FormData();
       formData.set("fullName", form.fullName);
       formData.set("email", form.email);
-      formData.set("paswword", form.paswword);
+      formData.set("password", form.password);
       formData.set("phone", form.phone);
       formData.set("gender", form.gender);
       formData.set("address", form.address);
@@ -79,7 +76,7 @@ const EditProfile = () => {
           Authorization: `Bearer ${localStorage.token}`,
         },
       });
-      console.log("ini response", response);
+      refetch();
       setIsloading(false);
       navigate("/profile");
     } catch (error) {
@@ -109,6 +106,7 @@ const EditProfile = () => {
           placeholder="Password"
           name="password"
           onChange={handleChange}
+          value={form?.password}
         />
         <GlobalInput
           placeholder="Phone"
