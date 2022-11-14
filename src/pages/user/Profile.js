@@ -19,44 +19,17 @@ const Profile = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const navigate = useNavigate();
-  const books = [
-    {
-      id: 1,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Selama beberapa tahun belakangan, Mark Manson—melalui blognya yang sangat populer tel ...",
-      price: "100000",
-    },
-    {
-      id: 2,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Dua insan manusia harus terjebak dalam dilema cinta yang memaksa salah satu dari mereka pergi me ...",
-      price: "100000",
-    },
-    {
-      id: 3,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Selama beberapa tahun belakangan, Mark Manson—melalui blognya yang sangat populer tel ...",
-      price: "100000",
-    },
-    {
-      id: 4,
-      title: "The Alchemist",
-      image: Book,
-      author: "Paulo Coelho",
-      description:
-        "Selama beberapa tahun belakangan, Mark Manson—melalui blognya yang sangat populer tel ...",
-      price: "100000",
-    },
-  ];
+
+  let { data: userTransaction } = useQuery("userTransactionCache", async () => {
+    const response = await API.get("/transaction");
+    return response.data.data;
+  });
+
+  {
+    userTransaction?.map((transaction) => console.log(transaction));
+  }
+
+  console.log(userTransaction);
 
   const [user, setUser] = React.useState(null);
 
@@ -161,12 +134,12 @@ const Profile = () => {
               My Books
             </h1>
             <div className="grid grid-cols-4">
-              {books.map((book) => (
+              {userTransaction[0]?.books.map((item) => (
                 <div className="w-[200px] h-[270px]">
-                  <img src={book.image} alt="" className="w-full" />
-                  <h1 className="text-[24px] font-bold">{book.title}</h1>
+                  <img src={item?.thumbnail} alt="" className="w-full" />
+                  <h1 className="text-[24px] font-bold">{item?.title}</h1>
                   <p className="text-[14px] text-slate-400 italic mb-[21px]">
-                    By. {book.author}
+                    By. {item?.author}
                   </p>
                   <GlobalButton
                     title="Download"

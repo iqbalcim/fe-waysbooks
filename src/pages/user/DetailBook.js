@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styles } from "../../style";
 import Book2 from "../../assets/img/book-detail.png";
 import { Carticon } from "../../assets";
@@ -6,9 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../../config/api";
 import { useQuery } from "react-query";
 import convertRupiah from "rupiah-format";
+import { UserContext } from "../../components/context/UserContext";
 
 const DetailBook = () => {
   const params = useParams();
+
+  const [state] = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -54,13 +57,17 @@ const DetailBook = () => {
         <p className="text-justify text-slate-400 font-avanir">
           {book?.description}
         </p>
-        <button
-          onClick={() => addToCart(book.id)}
-          className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center"
-        >
-          <span className="pr-2">Add Cart</span>
-          <img src={Carticon} alt="" />
-        </button>
+        {state.user.role === "admin" ? (
+          <div className="my-[30px]">.</div>
+        ) : (
+          <button
+            onClick={() => addToCart(book.id)}
+            className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center"
+          >
+            <span className="pr-2">Add Cart</span>
+            <img src={Carticon} alt="" />
+          </button>
+        )}
       </div>
     </div>
   );
