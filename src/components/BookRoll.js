@@ -1,21 +1,27 @@
-import React from "react";
-import Book from "../assets/img/book1.png";
-import { styles } from "../style";
+import React, { useContext } from "react";
 import GlobalButton from "./atoms/button/GlobalButton";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../App.css";
-
 import "swiper/css";
 import "swiper/css/pagination";
-
 import { Pagination } from "swiper";
 import { Link, useNavigate } from "react-router-dom";
 import convertRupiah from "rupiah-format";
 import { useQuery } from "react-query";
 import { API } from "../config/api";
+import { UserContext } from "./context/UserContext";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
 
 const BookRoll = () => {
   const navigate = useNavigate();
+
+  const [showModalLogin, setShowModalLogin] = React.useState(false);
+  const [showModalRegister, setShowModalRegister] = React.useState(false);
+
+  const [state] = useContext(UserContext);
+
+  console.log(state);
 
   let { data: books } = useQuery("latestBooksCache", async () => {
     const response = await API.get("/latest-books");
@@ -31,8 +37,6 @@ const BookRoll = () => {
       console.log(error);
     }
   };
-
-  console.log(books);
 
   return (
     <div className="gradient">
@@ -72,7 +76,11 @@ const BookRoll = () => {
                     <GlobalButton
                       title="Add to cart"
                       custom="h-[39px] font-avanir"
-                      onClick={() => addToCart(item.id)}
+                      onClick={
+                        state?.islogin
+                          ? () => addToCart(item.id)
+                          : () => setShowModalLogin(true)
+                      }
                     />
                   </div>
                 </div>
@@ -81,6 +89,16 @@ const BookRoll = () => {
           );
         })}
       </Swiper>
+      <Login
+        showModalLogin={showModalLogin}
+        setShowModalLogin={setShowModalLogin}
+        setShowModalRegister={setShowModalRegister}
+      />
+      <Register
+        showModalRegister={showModalRegister}
+        setShowModalRegister={setShowModalRegister}
+        setShowModalLogin={setShowModalLogin}
+      />
     </div>
   );
 };

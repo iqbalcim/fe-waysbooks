@@ -7,9 +7,13 @@ import { API } from "../../config/api";
 import { useQuery } from "react-query";
 import convertRupiah from "rupiah-format";
 import { UserContext } from "../../components/context/UserContext";
+import { Login, Register } from "../../components";
 
 const DetailBook = () => {
   const params = useParams();
+
+  const [showModalLogin, setShowModalLogin] = React.useState(false);
+  const [showModalRegister, setShowModalRegister] = React.useState(false);
 
   const [state] = useContext(UserContext);
 
@@ -61,7 +65,11 @@ const DetailBook = () => {
           <div className="my-[30px]">.</div>
         ) : (
           <button
-            onClick={() => addToCart(book.id)}
+            onClick={
+              state?.islogin
+                ? () => addToCart(book.id)
+                : () => setShowModalLogin(true)
+            }
             className="w-[144px] h-[50px] float-right my-[30px] font-avanir bg-primary text-white rounded font-bold flex items-center justify-center"
           >
             <span className="pr-2">Add Cart</span>
@@ -69,6 +77,16 @@ const DetailBook = () => {
           </button>
         )}
       </div>
+      <Login
+        showModalLogin={showModalLogin}
+        setShowModalLogin={setShowModalLogin}
+        setShowModalRegister={setShowModalRegister}
+      />
+      <Register
+        showModalRegister={showModalRegister}
+        setShowModalRegister={setShowModalRegister}
+        setShowModalLogin={setShowModalLogin}
+      />
     </div>
   );
 };

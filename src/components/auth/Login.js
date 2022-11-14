@@ -5,12 +5,7 @@ import { API } from "../../config/api";
 import GlobalButton from "../atoms/button/GlobalButton";
 import { UserContext } from "../context/UserContext";
 
-const Login = ({
-  showModalLogin,
-  setShowModalLogin,
-  setShowModalRegister,
-  setIsLogin,
-}) => {
+const Login = ({ showModalLogin, setShowModalLogin, setShowModalRegister }) => {
   const navigate = useNavigate();
 
   const [state, dispacth] = React.useContext(UserContext);
