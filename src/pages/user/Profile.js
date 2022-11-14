@@ -20,16 +20,13 @@ const Profile = () => {
 
   const navigate = useNavigate();
 
-  let { data: userTransaction } = useQuery("userTransactionCache", async () => {
-    const response = await API.get("/transaction");
-    return response.data.data;
-  });
-
-  {
-    userTransaction?.map((transaction) => console.log(transaction));
-  }
-
-  console.log(userTransaction);
+  let { data: userTransaction, refetch } = useQuery(
+    "userTransactionCache",
+    async () => {
+      const response = await API.get("/transaction");
+      return response.data.data;
+    }
+  );
 
   const [user, setUser] = React.useState(null);
 
@@ -49,6 +46,7 @@ const Profile = () => {
   React.useEffect(() => {
     if (state.user) {
       getUser();
+      refetch();
     }
   }, [state]);
   return (
@@ -133,21 +131,23 @@ const Profile = () => {
             <h1 className="text-[36px] font-bold mb-[42px] font-timesroman">
               My Books
             </h1>
-            <div className="grid grid-cols-4">
-              {userTransaction[0]?.books.map((item) => (
-                <div className="w-[200px] h-[270px]">
-                  <img src={item?.thumbnail} alt="" className="w-full" />
-                  <h1 className="text-[24px] font-bold">{item?.title}</h1>
-                  <p className="text-[14px] text-slate-400 italic mb-[21px]">
-                    By. {item?.author}
-                  </p>
-                  <GlobalButton
-                    title="Download"
-                    custom="w-full h-[40px] font-avanir mb-20"
-                  />
-                </div>
-              ))}
-            </div>
+            {userTransaction?.length !== undefined ? (
+              <div className="grid grid-cols-4">
+                {userTransaction[0]?.books.map((item) => (
+                  <div className="w-[200px] h-[270px]">
+                    <img src={item?.thumbnail} alt="" className="w-full" />
+                    <h1 className="text-[24px] font-bold">{item?.title}</h1>
+                    <p className="text-[14px] text-slate-400 italic mb-[21px]">
+                      By. {item?.author}
+                    </p>
+                    <GlobalButton
+                      title="Download"
+                      custom="w-full h-[40px] font-avanir mb-20"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       )}
