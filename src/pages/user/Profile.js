@@ -24,7 +24,13 @@ const Profile = () => {
     "userTransactionCache",
     async () => {
       const response = await API.get("/transaction");
-      return response.data.data;
+
+      const filterStatus = response.data.data.filter(
+        (item) => item.status === "success"
+      );
+
+      console.log(filterStatus);
+      return filterStatus;
     }
   );
 
@@ -134,7 +140,7 @@ const Profile = () => {
             {userTransaction?.length !== undefined ? (
               <div className="grid grid-cols-4">
                 {userTransaction[0]?.books.map((item) => (
-                  <div className="w-[200px] h-[270px]">
+                  <div className="flex flex-col justify-between w-[200px]">
                     <img src={item?.thumbnail} alt="" className="w-full" />
                     <h1 className="text-[24px] font-bold">{item?.title}</h1>
                     <p className="text-[14px] text-slate-400 italic mb-[21px]">
