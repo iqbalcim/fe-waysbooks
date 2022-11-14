@@ -10,7 +10,7 @@ import { API } from "../config/api";
 const ListBook = () => {
   const navigate = useNavigate();
 
-  let { data: books } = useQuery("latestBooksCache", async () => {
+  let { data: books } = useQuery("listBooks", async () => {
     const response = await API.get("/books");
     return response.data.data;
   });
@@ -25,7 +25,7 @@ const ListBook = () => {
         </div>
         <div className="grid grid-cols-5">
           {books?.map((book) => (
-            <div className="w-[200px] h-full">
+            <div className="w-[200px] h-full mb-10">
               <div
                 className="h-[430px] flex flex-col justify-between"
                 onClick={() => navigate(`/detail-book/${book.id}`)}

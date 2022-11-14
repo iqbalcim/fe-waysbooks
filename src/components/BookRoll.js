@@ -18,7 +18,7 @@ const BookRoll = () => {
   const navigate = useNavigate();
 
   let { data: books } = useQuery("latestBooksCache", async () => {
-    const response = await API.get("/books");
+    const response = await API.get("/latest-books");
     return response.data.data;
   });
 
@@ -32,6 +32,8 @@ const BookRoll = () => {
     }
   };
 
+  console.log(books);
+
   return (
     <div className="gradient">
       <Swiper
@@ -43,7 +45,7 @@ const BookRoll = () => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {books?.map((item) => {
+        {books?.slice(0, 5).map((item) => {
           return (
             <div key={item.id}>
               <SwiperSlide>
@@ -62,7 +64,7 @@ const BookRoll = () => {
                     </h1>
                     <p className="italic text-slate-400">By. {item.author}</p>
                     <p className="text-justify text-[14px] font-avanir break-all">
-                      "{item.description}"
+                      "{item.description.slice(0, 80)}..."
                     </p>
                     <p className="font-bold text-green-500  text-[18px]">
                       {convertRupiah.convert(item.price)}

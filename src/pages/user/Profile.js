@@ -23,16 +23,14 @@ const Profile = () => {
   let { data: userTransaction, refetch } = useQuery(
     "userTransactionCache",
     async () => {
+
       const response = await API.get("/transaction");
-
-      const filterStatus = response.data.data.filter(
-        (item) => item.status === "success"
-      );
-
-      console.log(filterStatus);
-      return filterStatus;
+      
+      return response.data.data;
     }
   );
+
+  console.log(userTransaction);
 
   const [user, setUser] = React.useState(null);
 
@@ -138,6 +136,7 @@ const Profile = () => {
               My Books
             </h1>
             {userTransaction?.length !== undefined ? (
+
               <div className="grid grid-cols-4">
                 {userTransaction[0]?.books.map((item) => (
                   <div className="flex flex-col justify-between w-[200px]">
