@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useMutation, useQuery } from "react-query";
+import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../config/api";
 import { styles } from "../../style";
@@ -26,6 +27,24 @@ const ListBookAdmin = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showAlert = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        handleDelete(id);
+        swal("Book has been deleted!", {
+          icon: "success",
+        });
+      } else {
+      }
+    });
   };
 
   return (
@@ -83,12 +102,15 @@ const ListBookAdmin = () => {
                 </td>
                 <td className="py-4 px-6 ">
                   <div className="flex">
-                    <button className="bg-green-400 text-white py-1 px-2 rounded font-bold font-avanir mr-3" onClick={() => navigate(`/update-book/${book.id}`)}>
+                    <button
+                      className="bg-green-400 text-white py-1 px-2 rounded font-bold font-avanir mr-3"
+                      onClick={() => navigate(`/update-book/${book.id}`)}
+                    >
                       Edit
                     </button>
                     <button
                       className="bg-red-400 text-white py-1 px-2 rounded font-bold font-avanir"
-                      onClick={() => handleDelete(book.id)}
+                      onClick={() => showAlert(book.id)}
                     >
                       Delete
                     </button>

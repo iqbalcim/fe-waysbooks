@@ -91,55 +91,93 @@ const UpdateBook = () => {
     <div className="px-[223px]">
       <h1 className={`${styles.heading3} mt-24 mb-[40px]`}>Update Book</h1>
       <form onSubmit={(e) => handleSubmit.mutate(e)}>
-        <GlobalInput
-          placeholder="Title"
-          id="title"
-          name="title"
-          onChange={handleChange}
-        />
+        <div>
+          <label htmlFor="title" className="font-avanir italic">
+            Title
+          </label>
+          <GlobalInput
+            id="title"
+            value={form?.title}
+            name="title"
+            onChange={handleChange}
+            custom="mt-2"
+          />
+        </div>
         <div>
           <label htmlFor="date" className="font-avanir italic ">
             Publication Date
           </label>
           <GlobalInput
-            type="string"
+            type="date"
             id="date"
+            value={form?.publication_date}
             name="publication_date"
-            placeholder="Publication Date"
             onChange={handleChange}
+            custom="mt-2"
+          />
+        </div>
+        <div>
+          <label htmlFor="pages" className="font-avanir italic ">
+            Pages
+          </label>
+          <GlobalInput
+            id="pages"
+            value={form?.pages}
+            name="pages"
+            onChange={handleChange}
+            custom="mt-2"
+          />
+        </div>
+        <div>
+          <label htmlFor="isbn" className="font-avanir italic ">
+            ISBN
+          </label>
+          <GlobalInput
+            id="isbn"
+            value={form?.ISBN}
+            name="ISBN"
+            onChange={handleChange}
+            custom="mt-2"
+          />
+        </div>
+        <div>
+          <label htmlFor="price" className="font-avanir italic ">
+            Price
+          </label>
+          <GlobalInput
+            id="price"
+            value={form?.price}
+            name="price"
+            onChange={handleChange}
+            custom="mt-2"
           />
         </div>
 
-        <GlobalInput placeholder="Pages" name="pages" onChange={handleChange} />
+        <div>
+          <label htmlFor="author" className="font-avanir italic ">
+            Author
+          </label>
+          <GlobalInput
+            id="author"
+            value={form?.author}
+            name="author"
+            onChange={handleChange}
+            custom="mt-2"
+          />
+        </div>
 
-        <label htmlFor="isbn" className="font-avanir italic ">
-          ISBN
-        </label>
-        <GlobalInput placeholder="ISBN" name="ISBN" onChange={handleChange} />
-
-        <label htmlFor="date" className="font-avanir italic ">
-          Price
-        </label>
-        <GlobalInput placeholder="Price" name="price" onChange={handleChange} />
-
-        <label htmlFor="date" className="font-avanir italic ">
-          Author
-        </label>
-        <GlobalInput
-          placeholder="Author"
-          name="author"
-          onChange={handleChange}
-        />
-
-        <label htmlFor="date" className="font-avanir italic ">
-          Description
-        </label>
-        <GlobalInput
-          placeholder="About This Book"
-          custom="h-[202px] pb-[150px]"
-          name="description"
-          onChange={handleChange}
-        />
+        <div>
+          <label htmlFor="description" className="font-avanir italic ">
+            About This Book
+          </label>
+          <textarea
+            name="description"
+            id="description"
+            value={form?.description}
+            rows="10"
+            className="w-full h-[200px] border border-[#E5E5E5] rounded-lg p-4 shadow mt-2"
+          ></textarea>
+        </div>
         <label
           htmlFor="thumbnail"
           className="border-2 w-[218px] h-[50px] flex items-center justify-center rounded mb-5"

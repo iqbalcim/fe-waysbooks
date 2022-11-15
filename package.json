@@ -15,7 +15,9 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "rupiah-format": "^1.0.0",
+    "sweetalert": "^2.1.2",
     "swiper": "^8.4.4",
+    "tailwind-float-label": "^3.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
